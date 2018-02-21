@@ -1,9 +1,9 @@
 window.onload = function () {
-	var map = L.map('map').setView([48.858376, 2.294442],12);
+	var map = L.map('map').setView([47, 2],5);
 	L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map);
 	
 	//Rendre draggable les div des pays
-	$( "#France" ).draggable({ revert: "valid" });
+	$( "#Q142" ).draggable({ revert: "valid" });
 	$( "#Canada" ).draggable({ revert: "valid" });
 	$( "#Italie" ).draggable({ revert: "valid" });
 	$( "#Belgique" ).draggable({ revert: "valid" });
@@ -24,10 +24,16 @@ window.onload = function () {
 			//Requete AJAX pour récupérer les coordonnées (lati, longi) du pays
 			$.ajax({
 			    type: 'GET',
-			    url: "http://nominatim.openstreetmap.org/search",
+			    url: " https://www.wikidata.org/w/api.php",
 			    dataType: 'jsonp',
 			    jsonpCallback: 'data',
-			    data: { format: "json", limit: 1,country: IdPays,json_callback: 'data' },
+			    data: {
+					action: 'wbgetentities',
+					format: 'json',
+					ids: IdPays,
+					origin: "*"
+				},
+				crossDomain: true,
 			    error: function(xhr, status, error) {
 						alert("ERROR "+error);
 			    },
@@ -36,8 +42,8 @@ window.onload = function () {
 					var lati = '';
 					var longi = '';
 					$.each(data, function() {
-						lati = this['lat'] ;
-						longi = this['lon'] ;
+						lati = this['P625.mainsnak.latitude'] ;
+						longi = this['P625.mainsnak.longitude'] ;
 				});
 				
 				//affichage des infos
