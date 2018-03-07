@@ -55,11 +55,11 @@ window.onload = function () {
 				$( "#info" ).html(chaine);
 				
 				//MAJ de la map à la position (lati, longi) du pays
-				map.panTo(new L.LatLng(lati, longi));		
+				//map.panTo(new L.LatLng(lati, longi));
+				map.setView([lati, longi],6);
 				
 			    }
 			});
-			
 			
 		}
 	});

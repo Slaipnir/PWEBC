@@ -5,13 +5,17 @@
 
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
 
+
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript" src="MenuJS.js"></script>
 
+<link href="jquery-ui.css" rel="stylesheet">
+
 <style>
 #principale #accordion {width:60%; margin-left: auto; margin-right: auto;}
 label {background-color:grey;}
+.ui-progressbar-value {background-color: black;}
 </style>
   
 </head>
@@ -20,23 +24,33 @@ label {background-color:grey;}
 <div id="principale">
 <div id="accordion">
   
-  <h2>Sec1</h2>
+  <h2>Seclectionnez la carte</h2>
   <div>
     <p>Tab 1 TEST</p>
-	<fieldset>
+	
+	
+	<fieldset id= "field">
 		<legend>Select a Location: </legend>
-		<label for="radio-1">New York</label>
-		<input type="radio" name="radio-1" id="radio-1">
-		<label for="radio-2">Paris</label>
+		<label for="radio-1">Mondial</label>
+		<input type="radio" name="radio-1" id="radio-1" checked>
+		<label for="radio-2">France</label>
 		<input type="radio" name="radio-1" id="radio-2">
-		<label for="radio-3">London</label>
+		<label for="radio-3">Etats-Unis</label>
 		<input type="radio" name="radio-1" id="radio-3">
 	</fieldset>
   </div>
   <h2>Sec2</h2>
   <div>
     <p>Tab 2 TEST</p>
-	<fieldset>
+	
+	<div>
+		<label for="spinner">Nombre de vie:</label>
+		<input id="spinner" name="value">
+	</div>
+	
+	<button type="button" onclick="myFunction()">Try it</button>
+	
+	<fieldset id= "field">
 		<legend>Hotel Ratings: </legend>
 		<label for="checkbox-1">2 Star</label>
 		<input type="checkbox" name="checkbox-1" id="checkbox-1">
@@ -51,6 +65,10 @@ label {background-color:grey;}
   <h2>Sec3</h2>
   <div>
     <p>Tab 3 TEST</p>
+	<div id="progressbar"></div>
+	<div id="map1"><p>Test map1</p></div>
+	<div id="map2"><p>Test map2</p></div>
+	<div id="map3"><p>Test map3</p></div>
   </div>
 </div>
 </div>
