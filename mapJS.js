@@ -1,13 +1,13 @@
 window.onload = function () {
-	var map = L.map('map').setView([47, 2],2);
+	var map = L.map('map').setView([47, 2],5);
 	L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map);
 	
 	//Rendre draggable les div des pays
 	$( "#Q142" ).draggable({ revert: "valid" });
-	$( "#Canada" ).draggable({ revert: "valid" });
-	$( "#Italie" ).draggable({ revert: "valid" });
-	$( "#Belgique" ).draggable({ revert: "valid" });
-	$( "#Japan" ).draggable({ revert: "valid" });
+	$( "#Q16" ).draggable({ revert: "valid" });
+	$( "#Q38" ).draggable({ revert: "valid" });
+	$( "#Q31" ).draggable({ revert: "valid" });
+	$( "#Q17" ).draggable({ revert: "valid" });
 	
 	//Rendre la map droppable
 	 $( "#map" ).droppable({
@@ -42,10 +42,10 @@ window.onload = function () {
 					var lati = '';
 					var longi = '';
 					$.each(data, function() {
-					console.log(data.entities.Q142.claims.P610[0].qualifiers.P625[0].datavalue.value.latitude);
-					lati = data["entities"][IdPays]["claims"]["P610"][0]["qualifiers"]["P625"][0]["datavalue"]["value"]["latitude"] ;
-					longi = data["entities"][IdPays]["claims"]["P610"][0]["qualifiers"]["P625"][0]["datavalue"]["value"]["longitude"]  ;
-						console.log(lati + " " + longi);
+					//console.log(data.entities.Q142.claims.P610[0].qualifiers.P625[0].datavalue.value.latitude);
+					lati = data["entities"][IdPays]["claims"]["P625"][0]["mainsnak"]["datavalue"]["value"]["latitude"] ;
+					longi = data["entities"][IdPays]["claims"]["P625"][0]["mainsnak"]["datavalue"]["value"]["longitude"]  ;
+					//	console.log(lati + " " + longi);
 				});
 				
 				
@@ -55,11 +55,11 @@ window.onload = function () {
 				$( "#info" ).html(chaine);
 				
 				//MAJ de la map à la position (lati, longi) du pays
-				//map.panTo(new L.LatLng(lati, longi));
-				map.setView([lati, longi],6);
+				map.panTo(new L.LatLng(lati, longi));		
 				
 			    }
 			});
+			
 			
 		}
 	});
