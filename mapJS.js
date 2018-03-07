@@ -19,7 +19,6 @@ window.onload = function () {
 			var IdPays = ui.draggable.attr("id");
 			
 			var chaine="";
-			chaine+="Pays : "+IdPays+"</br>";
 			
 			//Requete AJAX pour récupérer les coordonnées (lati, longi) du pays
 			$.ajax({
@@ -39,11 +38,14 @@ window.onload = function () {
 			    },
 			    success: function(data){
 				//récupérer les coordonnées (lati, longi) du pays dans les données json provenant du serveur
+					chaine+="Pays : "+data.Q142.labels.fr.value+"</br>";
 					var lati = '';
 					var longi = '';
 					$.each(data, function() {
-						lati = this['P625.mainsnak.latitude'] ;
-						longi = this['P625.mainsnak.longitude'] ;
+					console.log(data.entities.Q142.claims.P610[0].qualifiers.P625[0].datavalue.value.latitude);
+					lati = data.entities.Q142.claims.P610[0].qualifiers.P625[0].datavalue.value.latitude ;
+					longi = data.entities.Q142.claims.P610[0].qualifiers.P625[0].datavalue.value.longitude ;
+						console.log(lati + " " + longi);
 				});
 				
 				//affichage des infos
