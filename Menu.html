@@ -4,8 +4,10 @@
 <title>Map</title>
 
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.css" />
 
 
+<script src="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.js"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript" src="MenuJS.js"></script>
@@ -13,9 +15,10 @@
 <link href="jquery-ui.css" rel="stylesheet">
 
 <style>
-#principale #accordion {width:60%; margin-left: auto; margin-right: auto;}
-label {background-color:grey;}
-.ui-progressbar-value {background-color: black;}
+.ui-progressbar-value div{background-color: black;}
+#pbBad div{background:red;}
+#pbQuest div{background:green;}
+#map1 {witdh:50%; height:50%;}
 </style>
   
 </head>
@@ -26,9 +29,6 @@ label {background-color:grey;}
   
   <h2>Seclectionnez la carte</h2>
   <div>
-    <p>Tab 1 TEST</p>
-	
-	
 	<fieldset id= "field">
 		<legend>Select a Location: </legend>
 		<label for="radio-1">Mondial</label>
@@ -39,17 +39,13 @@ label {background-color:grey;}
 		<input type="radio" name="radio-1" id="radio-3">
 	</fieldset>
   </div>
+  
   <h2>Sec2</h2>
   <div>
-    <p>Tab 2 TEST</p>
-	
 	<div>
 		<label for="spinner">Nombre de vie:</label>
 		<input id="spinner" name="value">
 	</div>
-	
-	<button type="button" onclick="myFunction()">Try it</button>
-	
 	<fieldset id= "field">
 		<legend>Hotel Ratings: </legend>
 		<label for="checkbox-1">2 Star</label>
@@ -62,15 +58,21 @@ label {background-color:grey;}
 		<input type="checkbox" name="checkbox-4" id="checkbox-4">
 	</fieldset>
   </div>
+  
   <h2>Sec3</h2>
   <div>
-    <p>Tab 3 TEST</p>
-	<div id="progressbar"></div>
-	<div id="map1"><p>Test map1</p></div>
+	<h3>Nombre de question répondu</h3>
+	<div id="pbQuest"></div>
+	<h3>Nombre de mauvaise réponses</h3>
+	<div id="pbBad"></div>
+	
+	<div id="map1"></div>
 	<div id="map2"><p>Test map2</p></div>
 	<div id="map3"><p>Test map3</p></div>
+	
   </div>
-</div>
-</div>
+</div> <!-- fin accordion -->
+
+</div> <!-- fin principale -->
 </body>
 </html>

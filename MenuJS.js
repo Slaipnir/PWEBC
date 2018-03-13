@@ -1,9 +1,13 @@
 $( function() {
-    $( "#accordion" ).accordion();
+    $( "#accordion" ).accordion({
+	heightStyle: "content"
+	});
 	$( "#field input" ).checkboxradio();
-	$( "#progressbar" ).progressbar({
+	$( "#pbBad" ).progressbar({
       value: 35,
-	  color:"black"
+    });
+	$( "#pbQuest" ).progressbar({
+      value: 35,
     });
 	$("#map1").show();
 	$("#map2").hide();
@@ -36,11 +40,10 @@ $( function() {
 		$("#map3").show();
 	});
 	
-  } );
-  
-  function myFunction() {
-    document.getElementById("spinner").defaultValue = "16";
-}
+	var map = L.map("map1").setView([47, 2],5);
+	L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map);
+} );
+
   
 
   
