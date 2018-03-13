@@ -1,5 +1,8 @@
 $( function() {
-		
+	
+	
+	
+	
     $( "#accordion" ).accordion({
 	heightStyle: "content"
 	});
@@ -42,7 +45,7 @@ $( function() {
 	//console.log(themeClass);
 	
 	var map = L.map("map1").setView([47, 2],6);
-	var couche = new L.TileLayer('http://{s}.tile.thunderforest.com/outdoors/{z}/{x}/{y}.png')
+	var couche = new L.TileLayer('http://{s}.tile.thunderforest.com/outdoors/{z}/{x}/{y}.png?apikey=1a02a67146a1435d92219e86ff8582fa')
 	map.addLayer(couche);
 	
 	

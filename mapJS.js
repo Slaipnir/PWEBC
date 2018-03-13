@@ -23,7 +23,7 @@ window.onload = function () {
 			//Requete AJAX pour récupérer les coordonnées (lati, longi) du pays
 			$.ajax({
 			    type: 'GET',
-			    url: " https://www.wikidata.org/w/api.php",
+			    url: " https://nominatim.openstreetmap.org/search?country=France",
 			    dataType: 'jsonp',
 			    jsonpCallback: 'data',
 			    data: {
