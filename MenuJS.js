@@ -1,9 +1,12 @@
 $( function() {
 	
+	
+	
+	
 	$("#listDep").show();
 	$("#listEtat").hide();
 	$("#listPays").hide();
-	
+
     $( "#accordion" ).accordion({
 	heightStyle: "content"
 	});
@@ -62,6 +65,8 @@ $( function() {
 		$("#listPays").hide();
 		map.setView(new L.LatLng(47, 2),6);
 		map.on('click', onClickFrance);
+		map.off('click', onClickMondial);
+		map.off('click', onClickAmericain);
 		setSelectFrance();		
 	});
 	
@@ -73,6 +78,8 @@ $( function() {
 		$("#listPays").hide();
 		map.setView(new L.LatLng(37, -100),4);
 		map.on('click', onClickAmericain);
+		map.off('click', onClickFrance);
+		map.off('click', onClickMondial);
 	});
 	
 	$("#radio-3").click(function(){
@@ -83,6 +90,8 @@ $( function() {
 		$("#listPays").show();
 		map.setView(new L.LatLng(47, 2),2);
 		map.on('click', onClickMondial);
+		map.off('click', onClickFrance);
+		map.off('click', onClickAmericain);
 		setSelectMondial();
 	});
 	
@@ -96,8 +105,12 @@ $( function() {
 	
 	//Sur le click de la map, ajout d'un marqueur sur la carte avec le nom du pays
 	
+	function onClickAmericain(e){
+	
+	}
 	
 	function onClickMondial(e) {
+		lgMarkers.clearLayers();
 		//recherche le pays sur lequel on a clické
 		//Requete AJAX pour récupérer les infos du pays sur le point où on a cliqué (lati, longi)
 		var latitude,longitutde;
@@ -117,11 +130,32 @@ $( function() {
 				paysVisite = data["address"]['country'] ;
 			
 			//affichage des infos
-			L.marker(e.latlng).addTo(lgMarkers).bindPopup("Lat : "+ e.latlng.lat +", Lon : " + e.latlng.lng+" Pays : "+paysVisite).openPopup();
+			
+			$("#pbQuest").progressbar("value",$("#pbQuest").progressbar("value")+1);
+			$("#pQuest").text("Nombre Actuel : " + $("#pbQuest").progressbar("value"));
+			
+			if (paysVisite == $("#Pays").val()){
+				L.marker(e.latlng).addTo(lgMarkers).bindPopup("Lat : "+ e.latlng.lat +", Lon : " + e.latlng.lng+" Pays : "+paysVisite).openPopup();
+				$('#Pays option:selected').remove();
+			}
+			else {
+				L.marker(e.latlng).addTo(lgMarkers).bindPopup("Ceci est le mauvais pays désolé").openPopup();
+				$("#pbBad").progressbar("value",$("#pbBad").progressbar("value")+1);
+				$("#pBad").text("Nombre Actuel : " + $("#pbBad").progressbar("value"));
+				if ($("#pbBad").progressbar("value") == $("#pbBad").progressbar("option","max")){
+					alert("Vous avez fait trop d'erreur");
+					reset();
+				}
+			}
 			L.circle(e.latlng, 1).addTo(lgMarkers);
 			latitude = e.latlng.lat;
 			longitutde = e.latlng.lng
+			if ($("#pbQuest").progressbar("value") == $("#pbQuest").progressbar("option","max")){
+					alert("Bravo vous n'avez fait que " + $("#pbBad").progressbar("value") + " erreurs sur 10 question");
+					reset();
+				}
 			}
+			
 		});
 		
 				
@@ -151,6 +185,7 @@ $( function() {
 			$("#pQuest").text("Nombre Actuel : " + $("#pbQuest").progressbar("value"));
 			if (region == $("#Departements").val()){
 				L.marker(e.latlng).addTo(lgMarkers).bindPopup("Lat : "+ e.latlng.lat +", Lon : " + e.latlng.lng+" Région : "+region).openPopup();
+				$('#Departements option:selected').remove();
 			}
 			else {
 				//console.log(region);
@@ -167,6 +202,10 @@ $( function() {
 			L.circle(e.latlng, 1).addTo(lgMarkers);
 			latitude = e.latlng.lat;
 			longitutde = e.latlng.lng
+			if ($("#pbQuest").progressbar("value") == $("#pbQuest").progressbar("option","max")){
+					alert("Bravo vous n'avez fait que " + $("#pbBad").progressbar("value") + " erreurs sur 10 question");
+					reset();
+				}
 			}
 		});
 	}	
@@ -184,10 +223,10 @@ $( function() {
 	}
 	
 	function setSelectFrance(){
-		$("#Departements").html("");
+		$("#Departements").html("<option value = 0>Veuillez choisir une region</option>");
 		$.ajax({
 		    type: 'GET',
-		    url: "http://geo.api.gouv.fr/regions",
+		    url: "https://geo.api.gouv.fr/regions",
 		    dataType: 'json',
 		    jsonpCallback: 'data',
 		    data: { format: "json", limit: 1,json_callback: 'data' },
@@ -238,7 +277,7 @@ $( function() {
     rawFile.send(null);
 	}
 
-
+	$("#radio-1").click();
 	
 } );
 
