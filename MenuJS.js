@@ -1,8 +1,5 @@
 $( function() {
 	
-	
-	
-	
     $( "#accordion" ).accordion({
 	heightStyle: "content"
 	});
@@ -58,11 +55,40 @@ $( function() {
 	});
 	
 	$("#radio-3").click(function(){
-		
+		map.setView(new L.LatLng(47, 2),2);
 	});
 	
 	
+	//Sur le click de la map, ajout d'un marqueur sur la carte avec le nom du pays
+	map.on('click', onClick);
+	
+	function onClick(e) {
+		//recherche le pays sur lequel on a clické
+		//Requete AJAX pour récupérer les infos du pays sur le point où on a cliqué (lati, longi) 
+		$.ajax({
+		    type: 'GET',
+		    url: "http://nominatim.openstreetmap.org/reverse",
+		    dataType: 'jsonp',
+		    jsonpCallback: 'data',
+		    data: { format: "json", limit: 1,lat: e.latlng.lat,lon: e.latlng.lng,json_callback: 'data' },
+		    error: function(xhr, status, error) {
+					alert("ERROR "+error);
+		    },	  
+			success: 	function (data){
+			
+			//récupérer les coordonnées (lati, longi) du pays dans les données json provenant du serveur
+				var paysVisite ='';
+				paysVisite = data["address"]['country'] ;
+			
+			//affichage des infos
+			L.marker(e.latlng).addTo(map).bindPopup("Lat, Lon : " + e.latlng.lat + ", " + e.latlng.lng+" Pays : "+paysVisite).openPopup();
+			L.circle(e.latlng, 1).addTo(map);	
+			}
+		});
+	}
+	
 } );
+
 
   
 
