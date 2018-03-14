@@ -27,11 +27,11 @@ $( function() {
 	max:10,
 	change: function(event,ui){
 		var x = this;
-		$( "#pbQuest" ).progressbar("destroy");
-		$( "#pbQuest" ).progressbar({
+		$( "#pbBad" ).progressbar("destroy");
+		$( "#pbBad" ).progressbar({
 		max:x.value,
 		create: function(event,ui){
-		$("#hBad").text("Nombre de Mauvaises réponses max : " + x.value);
+			$("#hBad").text("Nombre de Mauvaises réponses max : " + x.value);
 		}
 		});
 	}
@@ -55,6 +55,7 @@ $( function() {
 	
 	
 	$("#radio-1").click(function(){
+		reset();
 		lgMarkers.clearLayers();
 		$("#listDep").show();
 		$("#listEtat").hide();
@@ -65,6 +66,7 @@ $( function() {
 	});
 	
 	$("#radio-2").click(function(){
+		reset();
 		lgMarkers.clearLayers();
 		$("#listDep").hide();
 		$("#listEtat").show();
@@ -74,6 +76,7 @@ $( function() {
 	});
 	
 	$("#radio-3").click(function(){
+		reset();
 		lgMarkers.clearLayers();
 		$("#listDep").hide();
 		$("#listEtat").hide();
@@ -83,6 +86,13 @@ $( function() {
 		setSelectMondial();
 	});
 	
+	
+	function reset(){
+		$( "#pbBad" ).progressbar("value",0);
+		$( "#pbQuest" ).progressbar("value",0);
+		$("#pBad").text("Nombre Actuel : " + $("#pbBad").progressbar("value"));
+		$("#pQuest").text("Nombre Actuel : " + $("#pbQuest").progressbar("value"));
+	}
 	
 	//Sur le click de la map, ajout d'un marqueur sur la carte avec le nom du pays
 	
@@ -120,6 +130,7 @@ $( function() {
 	function onClickFrance(e){
 		//Requete AJAX pour récupérer les infos du pays sur le point où on a cliqué (lati, longi)
 		var latitude,longitutde;
+		lgMarkers.clearLayers();
 		$.ajax({
 		    type: 'GET',
 		    url: "http://nominatim.openstreetmap.org/reverse",
@@ -135,21 +146,37 @@ $( function() {
 				var paysVisite ='';
 				region = data["address"]['state'] ;
 			
-			//affichage des infos
-			L.marker(e.latlng).addTo(lgMarkers).bindPopup("Lat : "+ e.latlng.lat +", Lon : " + e.latlng.lng+" Région : "+region).openPopup();
+			//affichage des info
+			$("#pbQuest").progressbar("value",$("#pbQuest").progressbar("value")+1);
+			$("#pQuest").text("Nombre Actuel : " + $("#pbQuest").progressbar("value"));
+			if (region == $("#Departements").val()){
+				L.marker(e.latlng).addTo(lgMarkers).bindPopup("Lat : "+ e.latlng.lat +", Lon : " + e.latlng.lng+" Région : "+region).openPopup();
+			}
+			else {
+				//console.log(region);
+				//console.log(region==$("#Departements").val());
+				//console.log($("#Departements").val());
+				L.marker(e.latlng).addTo(lgMarkers).bindPopup("Ceci est la mauvaise région désolé").openPopup();
+				$("#pbBad").progressbar("value",$("#pbBad").progressbar("value")+1);
+				$("#pBad").text("Nombre Actuel : " + $("#pbBad").progressbar("value"));
+				if ($("#pbBad").progressbar("value") == $("#pbBad").progressbar("option","max")){
+					alert("Vous avez fait trop d'erreur");
+					reset();
+				}
+			}
 			L.circle(e.latlng, 1).addTo(lgMarkers);
 			latitude = e.latlng.lat;
 			longitutde = e.latlng.lng
 			}
 		});
-	}
+	}	
 	
 	function setSelectMondial(){
-		$("#Pays").html("");
-		var data = require("countries-FR.json");
-		for(var i = 0; i < data.length;++i){
-			$("#Pays").html($("#Pays").html() + "<option value=" + data[i] + ">" + data[i] + "</option>");
-		}
+		//$("#Pays").html("");
+		//var jsonData = JSON.parse(dataLocalWorld);
+		//for(var i = 0; i < dataLocalWorld.length;++i){
+		//	$("#Pays").html($("#Pays").html() + "<option value=" + json[i] + ">" + json[i] + "</option>");
+		//}
 	}
 	
 	function setSelectAmerique(){
